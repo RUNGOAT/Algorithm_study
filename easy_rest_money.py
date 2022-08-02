@@ -6,6 +6,7 @@ for t in range(1, T + 1):
     rest = N    # divmod 함수에 첫 입력값 할당 후 반복하기 위해 N을 rest에 대입
     print(f'#{t}')
     for m in money:         # quotient == 몫
-        quotient, rest = divmod(rest, m)
+        quotient, rest = divmod(rest, m)          # 큰 수를 할 때 빠름
+        # quotient, rest = (rest // m, rest % m)      # 작은 수를 할 때 빠름
         print(quotient, end=' ')
     print()
