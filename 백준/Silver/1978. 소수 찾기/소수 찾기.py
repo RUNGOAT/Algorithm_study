@@ -12,6 +12,5 @@ def f(lst):
     return result
 
 N = int(input())
-num_list = list(map(int, sys.stdin.readline().split()))
 
-print(f(num_list))
+print(f(list(map(int, sys.stdin.readline().split()))))
