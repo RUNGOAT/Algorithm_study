@@ -16,4 +16,4 @@ for _ in range(M):
     elif command[0] == 'P':
         stack_l.append(command[1])
 
-print(''.join(stack_l + list(reversed(stack_r))))
+print(''.join(stack_l + stack_r[::-1]))
