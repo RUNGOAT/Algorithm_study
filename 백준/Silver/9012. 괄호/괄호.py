@@ -1,19 +1,23 @@
-T = int(input())
+import sys
 
-for _ in range(T):
-    ps = list(input())
-    cnt = 0
-    for p in ps:
-        if p == '(':
-            cnt += 1
+
+def checking(arr):
+    for s in arr:
+        if s == '(':
+            stack.append(s)
         else:
-            cnt -= 1
-
-        if cnt < 0:
-            print('NO')
-            break
+            if stack:
+                stack.pop()
+            else:
+                return 'NO'
+    if stack:
+        return 'NO'
     else:
-        if cnt == 0:
-            print('YES')
-        else:
-            print('NO')
+        return 'YES'
+
+
+T = int(sys.stdin.readline().strip())
+for _ in range(T):
+    arr = sys.stdin.readline().strip()
+    stack = []
+    print(checking(arr))
