@@ -1,9 +1,8 @@
-def f(n):
-    if n == 1 or n == 0:
+def factorial(n):
+    if n < 2:
         return 1
-    else:
-        return n * f(n-1)
+    return n * factorial(n-1)
+
 
 N = int(input())
-
-print(f(N))
+print(factorial(N))
