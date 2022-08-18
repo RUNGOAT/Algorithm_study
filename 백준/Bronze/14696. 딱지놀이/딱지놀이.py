@@ -12,7 +12,7 @@ def victory():
 
 N = int(sys.stdin.readline())
 for i in range(1, N + 1):
-    a, *card_a = map(int, input().split())
-    b, *card_b = map(int, input().split())
+    a, *card_a = map(int, sys.stdin.readline().split())
+    b, *card_b = map(int, sys.stdin.readline().split())
 
     print(victory())
