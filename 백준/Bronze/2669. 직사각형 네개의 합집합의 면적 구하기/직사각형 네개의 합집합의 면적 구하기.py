@@ -6,8 +6,6 @@ for _ in range(N):
 
     for i in range(s1, s2):
         for j in range(e1, e2):
-            if arr[i][j] == 0:
-                ans += 1
-                arr[i][j] = 1
+            arr[i][j] = 1
 
-print(ans)
+print(sum(sum(k) for k in arr))
