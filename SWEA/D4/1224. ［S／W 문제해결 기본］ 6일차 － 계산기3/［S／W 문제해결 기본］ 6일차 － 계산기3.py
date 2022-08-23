@@ -6,8 +6,8 @@ for tc in range(1, 11):
     isp = {"*": 2, "+": 1, "(": 0, "-": 1, "/": 2}
     icp = {"*": 2, "+": 1, "(": 3, "-": 1, "/": 2}
 
-    for i in range(N):
-        if arr[i] in isp:
+    for i in range(N):          # 후위표기법 변환
+        if arr[i] in isp:       # 연산자 일 때
             if not stack:
                 stack.append(arr[i])
             elif icp[arr[i]] > isp[stack[-1]]:
@@ -20,15 +20,12 @@ for tc in range(1, 11):
             while stack[-1] != "(":
                 lst.append(stack.pop())
             stack.pop()
-        else:
+        else:                   # 숫자일 때
             lst.append(arr[i])
     for _ in range(len(stack)):
-        tmp = stack.pop()
-        if tmp == "(":
-            stack.pop()
-        else:
-            lst.append(tmp)
-    for i in range(len(lst)):
+        lst.append(stack.pop())
+
+    for i in range(len(lst)):   # 계산
         if lst[i] in isp:
             tmp1 = int(stack.pop())
             tmp2 = int(stack.pop())
