@@ -6,8 +6,6 @@ storage = [0] * 1001
 max_l = 0
 for _ in range(N):
     l, h = map(int, sys.stdin.readline().split())
-    if max_l < l:
-        max_l = l
     storage[l] = h
 
 area = 0
@@ -22,7 +20,7 @@ for i in range(max_h_idx):
 area += storage[max_h_idx]
 
 height = 0
-for i in range(max_l, max_h_idx, -1):
+for i in range(1000, max_h_idx, -1):
     if height < storage[i]:
         height = storage[i]
     area += height
