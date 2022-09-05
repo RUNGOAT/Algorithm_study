@@ -1,12 +1,14 @@
 import sys
+from collections import deque
 
 
 def bfs(n, k, size):
 
     visited[n] = 1
-    q = [N]
+    q = deque()
+    q.append(N)
     while q:
-        n = q.pop(0)
+        n = q.popleft()
         if n == k:
             return
         for i in [1, -1, n]:
@@ -17,7 +19,7 @@ def bfs(n, k, size):
 
 
 N, K = map(int, sys.stdin.readline().split())
-size = 200002
-visited = [0] * 200002
+size = 100001
+visited = [0] * size
 bfs(N, K, size)
 print(visited[K]-1)
