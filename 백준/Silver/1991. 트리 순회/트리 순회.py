@@ -1,44 +1,36 @@
 import sys
 
 
-def preorder(n):
-    if n:
-        print(chr(n + 64), end='')
-        preorder(ch1[n])
-        preorder(ch2[n])
+def preorder(node):
+    if node != '.':
+        print(node, end='')
+        preorder(tree[node][0])
+        preorder(tree[node][1])
 
 
-def inorder(n):
-    if n:
-        inorder(ch1[n])
-        print(chr(n + 64), end='')
-        inorder(ch2[n])
+def inorder(node):
+    if node != '.':
+        inorder(tree[node][0])
+        print(node, end='')
+        inorder(tree[node][1])
 
 
-def postorder(n):
-    if n:
-        postorder(ch1[n])
-        postorder(ch2[n])
-        print(chr(n + 64), end='')
+def postorder(node):
+    if node != '.':
+        postorder(tree[node][0])
+        postorder(tree[node][1])
+        print(node, end='')
 
 
 N = int(sys.stdin.readline())
-ch1 = [0] * (N+1)
-ch2 = [0] * (N+1)
+tree = {}
 for _ in range(1, N+1):
-    v, cl, cr = sys.stdin.readline().split()
-    if cl == '.':
-        ch1[ord(v) - 64] = 0
-    else:
-        ch1[ord(v) - 64] = ord(cl) - 64
-    if cr == '.':
-        ch2[ord(v) - 64] = 0
-    else:
-        ch2[ord(v) - 64] = ord(cr) - 64
+    node, cl, cr = sys.stdin.readline().split()
+    tree[node] = [cl, cr]
 
-preorder(1)
+preorder('A')
 print()
-inorder(1)
+inorder('A')
 print()
-postorder(1)
+postorder('A')
 print()
