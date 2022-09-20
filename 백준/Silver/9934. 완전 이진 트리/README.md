@@ -14,7 +14,7 @@
 
 <p>상근이는 슬로베니아의 도시 Donji Andrijevci를 여행하고 있다. 이 도시의 도로는 깊이가 K인 완전 이진 트리를 이루고 있다. 깊이가 K인 완전 이진 트리는 총 2<sup>K</sup>-1개의 노드로 이루어져 있다. (아래 그림) 각 노드에는 그 곳에 위치한 빌딩의 번호가 붙여져 있다. 또, 가장 마지막 레벨을 제외한 모든 집은 왼쪽 자식과 오른쪽 자식을 갖는다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/2f3d1f78-7ef1-4be4-868c-6172f57f2db6/-/preview/" style="width: 429px; height: 147px;"></p>
+<p style="text-align: center;"><img alt="" src="" style="width: 429px; height: 147px;"></p>
 
 <p style="text-align: center;">깊이가 2와 3인 완전 이진 트리</p>
 
