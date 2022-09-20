@@ -1,6 +1,6 @@
 def f(cnt):
     if cnt == M:
-        print(*tmp)
+        print(' '.join(map(str, tmp)))
     else:
         for i in range(1, N+1):
             tmp.append(i)
