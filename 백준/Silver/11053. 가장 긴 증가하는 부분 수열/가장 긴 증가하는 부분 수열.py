@@ -1,13 +1,19 @@
 import sys
+
 input = sys.stdin.readline
 
 A = int(input())
-sequence = list(map(int, input().split()))
-dp = [1] * A
-for i in range(A-1, -1, -1):
-    min_idx = i
-    for j in range(i + 1, A):
-        if sequence[min_idx] < sequence[j]:
-            dp[min_idx] = max(dp[min_idx], dp[j] + 1)
+s = list(map(int, input().split())) + [0]
+stack = [s[0]]
+for i in range(1, A):
+    if stack[-1] < s[i]:
+        stack.append(s[i])
+    else:
+        j = len(stack) - 1
+        while j > 0:
+            if stack[j-1] < s[i]:
+                break
+            j -= 1
+        stack[j] = s[i]
 
-print(max(dp))
+print(len(stack))
