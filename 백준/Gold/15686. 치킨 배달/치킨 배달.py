@@ -17,7 +17,7 @@ def bfs(q):
                 if arr[ni][nj] == 1:
                     cnt += 1
                     distance += visited[i][j]
-                    if distance > min_distance:
+                    if distance >= min_distance:
                         return
                     if cnt == home:
                         min_distance = min(min_distance, distance)
