@@ -5,14 +5,15 @@ input = sys.stdin.readline
 
 def dijkstra(s):
     D[s] = 0
-    heap = []
-    heapq.heappush(heap, (D[s], s))
+    heap = [(D[s], s)]
     while heap:
         d, u = heapq.heappop(heap)
-        for v in adj[u]:
-            if D[v[0]] > D[u] + v[1]:
-                D[v[0]] = D[u] + v[1]
-                heapq.heappush(heap, (D[v[0]], v[0]))
+        if d > D[u]:
+            continue
+        for v, w in adj[u]:
+            if D[v] > D[u] + w:
+                D[v] = D[u] + w
+                heapq.heappush(heap, (D[v], v))
 
 
 INF = 99999999
