@@ -1,9 +1,14 @@
-F = [1] * 31
-for i in range(2, 31):
-    F[i] = F[i-1] * i
+import sys
+input = sys.stdin.readline
 
+def f2(n):
+    if len(F) - 1 < n:
+        F.append(n * f2(n-1))
+    return F[n]
+
+F = [1, 1]
 T = int(input())
 for _ in range(T):
     N, M = map(int, input().split())
-    ans = F[M] // F[N] // F[M-N]
+    ans = f2(M) // f2(N) // f2(M-N)
     print(ans)
