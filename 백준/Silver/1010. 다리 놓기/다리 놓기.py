@@ -1,13 +1,9 @@
-def f(n):
-    if n <= 1:
-        return 1
-    else:
-        return n * f(n-1)
-
+F = [1] * 31
+for i in range(2, 31):
+    F[i] = F[i-1] * i
 
 T = int(input())
 for _ in range(T):
     N, M = map(int, input().split())
-    ans = f(M) // f(N) // f(M-N)
+    ans = F[M] // F[N] // F[M-N]
     print(ans)
-    
