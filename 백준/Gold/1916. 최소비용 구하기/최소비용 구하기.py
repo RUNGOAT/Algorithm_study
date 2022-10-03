@@ -8,12 +8,12 @@ def dijkstra(s, e):
     heap = [[D[s], s]]
     while heap:
         w, u = heapq.heappop(heap)
-        if w > D[u]:
-            continue
-        for v, w in adjL[u]:
-            if D[v] > D[u] + w:
-                D[v] = D[u] + w
-                heapq.heappush(heap, [D[v], v])
+        if not visited[u]:
+            visited[u] = 1
+            for v, w in adjL[u]:
+                if not visited[v] and D[v] > D[u] + w:
+                    D[v] = D[u] + w
+                    heapq.heappush(heap, [D[v], v])
 
 
 INF = int(1e9)
@@ -25,5 +25,6 @@ for _ in range(M):
     adjL[u].append([v, w])
 s, e = map(int, input().split())
 D = [INF] * (N+1)
+visited = [0] * (N+1)
 dijkstra(s, e)
 print(D[e])
