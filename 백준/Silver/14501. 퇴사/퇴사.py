@@ -1,18 +1,19 @@
 import sys
+input = sys.stdin.readline
 
-N = int(sys.stdin.readline())
-dp = [0] * 21
-T = [0]
-P = [0]
+
+N = int(input())
+T = [0] * (N+1)
+P = [0] * (N+1)
+dp = [0] * (N+2)
+
 for n in range(1, N+1):
-    t, p = map(int, sys.stdin.readline().split())
-    T.append(t)
-    P.append(p)
+    t, p = map(int, input().split())
+    T[n] = t
+    P[n] = p
 
-for i in range(N, 0, -1):
+for i in range(1, N+1):
+    dp[i] = max(dp[i], dp[i-1])
     if i + T[i] <= N+1:
-        dp[i] = max(dp[i+1], P[i] + dp[i + T[i]])
-    else:
-        dp[i] = dp[i+1]
-
-print(dp[1])
+        dp[i + T[i]] = max(dp[i+T[i]], dp[i] + P[i])
+print(max(dp[N], dp[N+1]))
