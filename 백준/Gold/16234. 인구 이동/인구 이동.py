@@ -2,6 +2,7 @@ import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(10**4)
 
+
 def dfs(x, y):
     global flag, cnt, po_sum
     visited[x][y] = union_idx
@@ -24,7 +25,7 @@ for _ in range(N):
 date = 0
 visited = [[0] * N for _ in range(N)]
 while True:
-    union_po = {}
+    union_po = [0]
     union_idx = 1
     flag = True
     for i in range(N):
@@ -33,13 +34,13 @@ while True:
                 po_sum = arr[i][j]
                 cnt = 1
                 dfs(i, j)
-                union_po[union_idx] = po_sum // cnt
+                union_po.append(po_sum // cnt)
                 union_idx += 1
     if flag:
         print(date)
         break
     for i in range(N):
         for j in range(N):
-            arr[i][j] = union_po.get(visited[i][j], arr[i][j])
+            arr[i][j] = union_po[visited[i][j]]
             visited[i][j] = 0
     date += 1
