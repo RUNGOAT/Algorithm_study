@@ -1,18 +1,25 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**4)
 
 
-def dfs(x, y):
-    global flag, cnt, po_sum
+def bfs(x, y):
+    global flag
+    stack = [(x, y)]
     visited[x][y] = union_idx
-    for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if 0 <= nx < N and 0 <= ny < N and visited[nx][ny] == 0 and L <= abs(arr[nx][ny] - arr[x][y]) <= R:
-            cnt += 1
-            po_sum += arr[nx][ny]
-            dfs(nx, ny)
-            flag = False
+    cnt = 1
+    po_sum = arr[x][y]
+    while stack:
+        x, y = stack.pop()
+        for i in range(4):
+            nx, ny = x + dx[i], y + dy[i]
+            if 0 <= nx < N and 0 <= ny < N and visited[nx][ny] == 0 and L <= abs(arr[nx][ny] - arr[x][y]) <= R:
+                cnt += 1
+                po_sum += arr[nx][ny]
+                stack.append((nx, ny))
+                visited[nx][ny] = union_idx
+    if cnt != 1:
+        flag = False
+    return po_sum // cnt
 
 
 dx = [0, 1, 0, -1]
@@ -31,10 +38,7 @@ while True:
     for i in range(N):
         for j in range(N):
             if not visited[i][j]:
-                po_sum = arr[i][j]
-                cnt = 1
-                dfs(i, j)
-                union_po.append(po_sum // cnt)
+                union_po.append(bfs(i, j))
                 union_idx += 1
     if flag:
         print(date)
