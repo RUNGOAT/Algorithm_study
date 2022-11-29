@@ -1,18 +1,24 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(100000)
 
 
-def dfs(v, dist):
-    global max_dist, far_node
-    if max_dist < dist:
-        max_dist = dist
-        far_node = v
-
+def bfs(v):
+    global max_dist
+    far_node = 0
+    stack = [[v, 0]]
+    visited = [False] * (N + 1)
     visited[v] = True
-    for w, d in adjL[v]:
-        if not visited[w]:
-            dfs(w, dist + d)
+    while stack:
+        v, d = stack.pop()
+        if max_dist < d:
+            max_dist = d
+            far_node = v
+        for w, dist in adjL[v]:
+            if not visited[w]:
+                visited[w] = True
+                stack.append([w, d + dist])
+
+    return far_node
 
 
 N = int(input())
@@ -24,9 +30,6 @@ for n in range(E):
     adjL[w].append([v, d])
 
 max_dist = 0
-far_node = 0
-visited = [False] * (N+1)
-dfs(1, 0)
-visited = [False] * (N+1)
-dfs(far_node, 0)
+node = bfs(1)
+bfs(node)
 print(max_dist)
