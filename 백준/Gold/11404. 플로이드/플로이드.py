@@ -9,20 +9,20 @@ def dijkstra(v):
     D[v] = 0
     while heap:
         d, v = heapq.heappop(heap)
-        for c, w in adjL[v]:
-            cost = d + c
+        for w in range(1, N+1):
+            cost = d + adjM[v][w]
             if D[w] > cost:
                 D[w] = cost
                 heapq.heappush(heap, (cost, w))
 
 
-INF = int(1e9)
+INF = 100000000
 N = int(input())
 M = int(input())
-adjL = [[] for _ in range(N+1)]
+adjM = [[INF] * (N+1) for _ in range(N+1)]
 for _ in range(M):
     a, b, c = map(int, input().split())
-    adjL[a].append((c, b))
+    adjM[a][b] = min(adjM[a][b], c)
 
 for n in range(1, N+1):
     D = [INF] * (N+1)
