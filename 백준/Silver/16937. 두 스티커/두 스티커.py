@@ -3,8 +3,6 @@ input = sys.stdin.readline
 
 
 H, W = map(int, input().split())
-if H < W:
-    H, W = W, H
 N = int(input())
 arr = []
 for _ in range(N):
