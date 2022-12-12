@@ -11,8 +11,7 @@ for _ in range(N):
 max_area = 0
 for i in range(N):
     r1, c1 = arr[i]
-    for j in range(N):
-        if i == j:  continue
+    for j in range(i+1, N):
         r2, c2 = arr[j]
         if (r1 + r2 <= H and max(c1, c2) <= W) or (max(r1, r2) <= H and c1 + c2 <= W):
             max_area = max(max_area, r1 * c1 + r2 * c2)
