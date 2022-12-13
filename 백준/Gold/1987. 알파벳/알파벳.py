@@ -4,7 +4,7 @@ input = sys.stdin.readline
 
 def dfs(x, y, cnt):
     global ans
-    if ans == 26:
+    if ans == alpa_cnt:
         return
     if ans < cnt:
         ans = cnt
@@ -24,6 +24,17 @@ for _ in range(R):
     arr.append(list(input().strip()))
 visited = [False] * 26
 visited[ord(arr[0][0]) - 65] = True
-ans = 0
+
+idx = [False] * 26
+for i in range(R):
+    for j in range(C):
+        if not idx[ord(arr[i][j]) - 65]:
+            idx[ord(arr[i][j]) - 65] = True
+alpa_cnt = 0
+for i in range(26):
+    if idx[i]:
+        alpa_cnt += 1
+
+ans = 1
 dfs(0, 0, 1)
 print(ans)
