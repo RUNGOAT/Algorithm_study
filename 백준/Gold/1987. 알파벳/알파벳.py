@@ -4,6 +4,8 @@ input = sys.stdin.readline
 
 def dfs(x, y, cnt):
     global ans
+    if ans == 26:
+        return
     if ans < cnt:
         ans = cnt
     for i in range(4):
