@@ -10,10 +10,10 @@ def dfs(x, y, cnt):
         ans = cnt
     for i in range(4):
         nx, ny = x + dx[i], y + dy[i]
-        if 0 <= nx < R and 0 <= ny < C and not visited[ord(arr[nx][ny]) - 65]:
-            visited[ord(arr[nx][ny]) - 65] = True
+        if 0 <= nx < R and 0 <= ny < C and not visited[arr[nx][ny]]:
+            visited[arr[nx][ny]] = True
             dfs(nx, ny, cnt + 1)
-            visited[ord(arr[nx][ny]) - 65] = False
+            visited[arr[nx][ny]] = False
 
 
 dx = [1, 0, -1, 0]
@@ -21,15 +21,16 @@ dy = [0, 1, 0, -1]
 R, C = map(int, input().split())
 arr = []
 for _ in range(R):
-    arr.append(list(input().strip()))
+    arr.append(list(map(lambda x: ord(x) - 65, input().strip())))
+    
 visited = [False] * 26
-visited[ord(arr[0][0]) - 65] = True
+visited[arr[0][0]] = True
 
 idx = [False] * 26
 for i in range(R):
     for j in range(C):
-        if not idx[ord(arr[i][j]) - 65]:
-            idx[ord(arr[i][j]) - 65] = True
+        if not idx[arr[i][j]]:
+            idx[arr[i][j]] = True
 alpa_cnt = 0
 for i in range(26):
     if idx[i]:
