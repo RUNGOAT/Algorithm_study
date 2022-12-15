@@ -1,8 +1,6 @@
-import sys
 def check(x, y, k):
-    for j in range(9):
-        if k == arr[x][j]:
-            return False
+    if k in arr[x]:
+        return False
 
     for i in range(9):
         if k == arr[i][y]:
@@ -31,7 +29,7 @@ def sudoku(idx):
             arr[x][y] = 0
 
 
-arr = [list(map(int, sys.stdin.readline().strip())) for _ in range(9)]
+arr = [list(map(int, input())) for _ in range(9)]
 zero_posi = []
 zero_cnt = 0
 for i in range(9):
