@@ -18,7 +18,7 @@ def bfs(x, y):
                 else:
                     tmp.add((nx, ny))
 
-    for x, y in set(tmp):
+    for x, y in tmp:
         arr[x][y] += cnt
         # arr[x][y] %= 10
 
