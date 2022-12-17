@@ -33,6 +33,4 @@ for i in range(N):
             bfs(i, j)
 
 for i in range(N):
-    for j in range(M):
-        print(arr[i][j] % 10, end='')
-    print()
+    print(''.join(map(lambda x: str(x % 10), arr[i])))
