@@ -5,7 +5,7 @@ input = sys.stdin.readline
 def find_set(x):
     if x == p[x]:
         return x
-    p[x] = find_set(p[x])
+    p[x] = find_set(p[x])   # 경로 압축
     return p[x]
 
 
@@ -25,15 +25,12 @@ for _ in range(E):
     edge.append([w, u, v])
 edge.sort()
 
-cnt = 0
 total = 0
 for w, u, v in edge:
     fu = find_set(u)
     fv = find_set(v)
     if fu != fv:
-        cnt += 1
         union(fu, fv)
         total += w
-        if cnt == V:
-            break
+
 print(total)
