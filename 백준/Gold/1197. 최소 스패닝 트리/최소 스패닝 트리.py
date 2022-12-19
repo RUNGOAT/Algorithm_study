@@ -22,11 +22,11 @@ p = list(range(V+1))
 
 for _ in range(E):
     u, v, w = map(int, input().split())
-    edge.append([w, u, v])
-edge.sort(key=lambda x: x[0])
+    edge.append([u, v, w])
+edge.sort(key=lambda x: x[2])
 
 total = 0
-for w, u, v in edge:
+for u, v, w in edge:
     fu = find_set(u)
     fv = find_set(v)
     if fu != fv:
