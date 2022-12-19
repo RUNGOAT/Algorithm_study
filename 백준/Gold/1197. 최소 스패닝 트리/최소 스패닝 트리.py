@@ -18,7 +18,7 @@ def union(fu, fv):
 
 V, E = map(int, input().split())
 edge = []
-p = [i for i in range(V+1)]
+p = list(range(V+1))
 
 for _ in range(E):
     u, v, w = map(int, input().split())
