@@ -3,9 +3,10 @@ input = sys.stdin.readline
 
 
 def find_set(x):
-    while x != p[x]:
-        x = p[x]
-    return x
+    if x == p[x]:
+        return x
+    p[x] = find_set(p[x])
+    return p[x]
 
 
 def union(fu, fv):
@@ -15,7 +16,6 @@ def union(fu, fv):
         p[fv] = fu
 
 
-INF = 1000000
 V, E = map(int, input().split())
 edge = []
 p = [i for i in range(V+1)]
