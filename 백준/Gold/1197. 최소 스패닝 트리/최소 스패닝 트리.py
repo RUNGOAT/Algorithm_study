@@ -23,7 +23,7 @@ p = [i for i in range(V+1)]
 for _ in range(E):
     u, v, w = map(int, input().split())
     edge.append([w, u, v])
-edge.sort()
+edge.sort(key=lambda x: x[0])
 
 total = 0
 for w, u, v in edge:
