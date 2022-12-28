@@ -3,4 +3,4 @@ input = sys.stdin.readline
 
 
 N = input().rstrip()
-print(*sorted(N, reverse=True), sep='')
+print(''.join(sorted(N, reverse=True)))
