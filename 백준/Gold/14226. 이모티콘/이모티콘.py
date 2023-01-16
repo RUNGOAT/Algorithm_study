@@ -22,5 +22,5 @@ def bfs():
 
 
 S = int(input())
-visited = [[0] * (S) for _ in range(2*S)]
+visited = [[0] * S for _ in range(S+1)]
 print(bfs())
