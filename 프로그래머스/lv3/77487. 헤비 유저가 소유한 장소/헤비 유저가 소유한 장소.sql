@@ -1,10 +1,9 @@
--- 코드를 입력하세요
-SELECT ID, NAME, HOST_ID
-FROM PLACES
-WHERE HOST_ID IN (
+SELECT P1.ID, P1.NAME, P1.HOST_ID
+FROM PLACES P1 JOIN (
                 SELECT HOST_ID
                 FROM PLACES
                 GROUP BY HOST_ID
                 HAVING COUNT(ID) > 1
-                )
-ORDER BY ID;
+                ) P2
+USING (HOST_ID)
+ORDER BY P1.ID;
