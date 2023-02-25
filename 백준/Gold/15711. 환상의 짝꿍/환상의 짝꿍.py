@@ -35,9 +35,9 @@ for _ in range(T):
     ssum = A + B
     if ssum < 4:
         print('NO')
-    elif ssum % 2 == 0:
+    elif ssum % 2 == 0:    #합이 4이상이고 짝수면 무조건 소수로 분리가 가능하다(골드바흐의 추측)
         print('YES')
-    elif is_prime_num(ssum - 2):
+    elif is_prime_num(ssum - 2):    # 이외의 숫자는 소수 2와 홀수 소수의 조합으로만 가능하여 합-2가 소수인지 판별하면 된다.
         print('YES')
     else:
         print('NO')
