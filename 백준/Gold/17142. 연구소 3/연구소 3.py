@@ -13,16 +13,17 @@ def bfs(q):
                 if arr[nx][ny] != 1:
                     visited[nx][ny] = visited[x][y] + 1
                     q.append((nx, ny))
+                    
 
-
+# bfs 탐색 후 바이러스가 있는 칸의 시간은 체크할 필요없다.
 def check_time():
     time = 0
     for x in range(N):
         for y in range(N):
-            if arr[x][y] == 0:
+            if arr[x][y] == 0:  # 빈 칸인 경우
                 if visited[x][y] == 0:
                     time = 2501
-                elif time < visited[x][y]:
+                elif time < visited[x][y]:      # 빈 칸을 채운 시간 구하기
                     time = visited[x][y]
     return time
 
@@ -44,17 +45,19 @@ for comb in combinations(virus, M):
     visited = [[0] * N for _ in range(N)]
     for x, y in comb:
         visited[x][y] = 1
-    # bfs
+        
     bfs(comb)
-
+    
+    # bfs 탐색으로 걸린 시간
     time = check_time()
-
+    
+    # 최소 시간
     min_time = min(time, min_time)
 
-if min_time == 2501:
+if min_time == 2501:    # 빈 칸을 다 채우지 못한 경우
     min_time = -1
-elif min_time != 0:
-    min_time -= 1
+elif min_time != 0:     # 0이면 처음부터 빈 칸이 없는 경우
+    min_time -= 1       # 방문체크(visited[x][y])를 1부터 시작함으로 -= 1
 
 # 최소 시간 출력
 print(min_time)
