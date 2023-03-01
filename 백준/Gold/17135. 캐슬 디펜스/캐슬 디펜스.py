@@ -7,14 +7,14 @@ def attack(posi):
     attack_near_enemy = [(-1, -1, 11) for _ in range(3)]
     for x in range(N-1, -1, -1):
         for y in range(M):
-            if test_arr[x][y] == 1:
+            if test_arr[x][y] == 1:         # 적이 있을 때
                 for idx, archer_y in enumerate(posi):
                     diff_d = abs(N - x) + abs(archer_y - y)
-                    if diff_d <= D:
+                    if diff_d <= D:         # 사정거리 안이면
                         x1, y1, d1 = attack_near_enemy[idx]
-                        if diff_d < d1:
+                        if diff_d < d1:     # 가장 가까운 적을 찾고
                             attack_near_enemy[idx] = (x, y, diff_d)
-                        elif diff_d == d1:
+                        elif diff_d == d1:  # 거리가 같다면 가장 왼쪽을 찾는다.
                             if y < y1:
                                 attack_near_enemy[idx] = (x, y, diff_d)
 
