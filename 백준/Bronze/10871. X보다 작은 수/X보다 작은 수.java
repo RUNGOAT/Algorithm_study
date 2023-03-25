@@ -4,24 +4,22 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	
-	public static void check(String[] arr, int v) {
-		for (String ar : arr) {
-			if (v > Integer.parseInt(ar)) {
-				System.out.print(ar + " ");
-			}
-		}
-	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuffer sb = new StringBuffer();
+		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int X = Integer.parseInt(st.nextToken());
 		
 		String[] arr = br.readLine().split(" ");
-		check(arr, X);
-		
+		for (String ar : arr) {
+			if (X > Integer.parseInt(ar)) {
+				sb.append(ar + " ");
+			}
+		}
+		System.out.println(sb);
 		br.close();
 	}
 
