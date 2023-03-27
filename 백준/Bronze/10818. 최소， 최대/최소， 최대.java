@@ -9,14 +9,17 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		String[] arr = br.readLine().split(" ");
 
-		int[] numbers = new int[N];
+		int min = 1000000;
+		int max = -1000000;
 		for (int i = 0; i < N; i++) {
-			numbers[i] = Integer.parseInt(arr[i]);
+			int number = Integer.parseInt(arr[i]);
+			if (number > max)
+				max = number;
+			if (number < min)
+				min = number;
 		}
 
-		Arrays.sort(numbers);
-
-		System.out.println(numbers[0] + " " + numbers[N - 1]);
+		System.out.println(min + " " + max);
 
 	}
 }
