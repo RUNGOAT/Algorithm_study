@@ -39,10 +39,10 @@ public class Main {
 		}
 		
 		Arrays.sort(times);
-		int answer = 0;
+		int answer = 1;
 		
-		int end = 0;		
-		for (int i = 0; i < N; i++) {
+		int end = times[0].end;
+		for (int i = 1; i < N; i++) {
 			if (times[i].start >= end) {
 				answer++;
 				end = times[i].end;
