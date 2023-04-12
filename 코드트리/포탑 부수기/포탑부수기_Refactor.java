@@ -110,7 +110,7 @@ public class Main {
 
 	static int[] searchAttacker() {
 		int power = 5001;
-		int ai = 0, aj = 0;
+		int ai = 0, aj = 0;	// 공격자 위치
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (arr[i][j] == 0)	continue;
@@ -148,7 +148,7 @@ public class Main {
 
 	static int[] searchTarget(int[] atk) {
 		int power = -1;
-		int ti = 0, tj = 0;
+		int ti = 0, tj = 0;	// 타겟 위치
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (arr[i][j] == 0)	continue;
