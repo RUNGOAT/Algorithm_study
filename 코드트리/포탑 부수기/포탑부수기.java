@@ -114,25 +114,34 @@ public class Main {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (arr[i][j] == 0)	continue;
+				
+				// 1. 공격력이 가장 낮은 포탑
 				if (arr[i][j] < power) {
 					power = arr[i][j];
 					ai = i;
 					aj = j;
-				} else if (arr[i][j] == power) {
-					if (lastAttack[i][j] > lastAttack[ai][aj]) {
-						ai = i;
-						aj = j;
-					} else if (lastAttack[i][j] == lastAttack[ai][aj]) {
-						if (i + j > ai + aj) {
-							ai = i;
-							aj = j;
-						} else if (i + j == ai + aj) {
-							if (j > aj) {
-								ai = i;
-								aj = j;
-							}
-						}
-					}
+					continue;
+				} else if (arr[i][j] > power)	continue;
+
+				// 2. 가장 최근에 공격한 포탑
+				if (lastAttack[i][j] > lastAttack[ai][aj]) {
+					ai = i;
+					aj = j;
+					continue;
+				} else if (lastAttack[i][j] < lastAttack[ai][aj])
+					continue;
+				
+				// 3. 행과 열의 합이 가장 큰 포탑
+				if (i + j > ai + aj) {
+					ai = i;
+					aj = j;
+					continue;
+				} else if (i + j < ai + aj)	continue;
+					
+				// 4. 열 값이 가장 큰 포탑
+				if (j > aj) {
+					ai = i;
+					aj = j;
 				}
 			}
 		}
@@ -147,25 +156,34 @@ public class Main {
 			for (int j = 0; j < M; j++) {
 				if (arr[i][j] == 0)	continue;
 				if (i == atk[0] && j == atk[1])	continue;
+				
+				// 1. 공격력 높은 포탑
 				if (arr[i][j] > power) {
 					power = arr[i][j];
 					ti = i;
 					tj = j;
-				} else if (arr[i][j] == power) {
-					if (lastAttack[i][j] < lastAttack[ti][tj]) {
-						ti = i;
-						tj = j;
-					} else if (lastAttack[i][j] == lastAttack[ti][tj]) {
-						if (i + j < ti + tj) {
-							ti = i;
-							tj = j;
-						} else if (i + j == ti + tj) {
-							if (j < tj) {
-								ti = i;
-								tj = j;
-							}
-						}
-					}
+					continue;
+				} else if (arr[i][j] < power)	continue;
+				
+				// 2. 공격한지 가장 오래된 포탑
+				if (lastAttack[i][j] < lastAttack[ti][tj]) {
+					ti = i;
+					tj = j;
+					continue;
+				} else if (lastAttack[i][j] > lastAttack[ti][tj])
+					continue;
+				
+				// 3. 행과 열의 합이 가장 작은 포탑
+				if (i + j < ti + tj) {
+					ti = i;
+					tj = j;
+					continue;
+				} else if (i + j > ti + tj)	continue;
+				
+				// 4. 열 값이 가장 작은 포탑
+				if (j < tj) {
+					ti = i;
+					tj = j;
 				}
 			}
 		}
