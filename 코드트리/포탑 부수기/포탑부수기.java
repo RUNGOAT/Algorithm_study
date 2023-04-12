@@ -79,7 +79,7 @@ public class Main {
 			// 4. 포탑 정비
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
-					if (arr[i][j] == 0)		continue;
+					if (arr[i][j] == 0)	continue;
 					if (isAttacked[i][j])	continue;
 					arr[i][j] += 1;
 				}
