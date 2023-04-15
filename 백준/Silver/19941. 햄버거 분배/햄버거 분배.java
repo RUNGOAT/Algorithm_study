@@ -4,44 +4,38 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-
+	
+	static int N, K;
+	static char[] line;
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		
-		boolean[] isAte = new boolean[N];
-		String str = br.readLine();
+		N = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken());
+		line = br.readLine().toCharArray();
 		
 		int answer = 0;
 		for (int i = 0; i < N; i++) {
-			if (str.charAt(i) == 'P') {
-				boolean leftAte = false;
-				for (int k = K; k > 0; k--) {
-					if (i < k)	continue;
-					if (str.charAt(i - k) == 'P') continue;
-					if (isAte[i - k])	continue;
-					isAte[i - k] = true;
-					answer++;
-					leftAte = true;
-					break;
-				}
-				if (!leftAte) {
-					for (int k = 1; k <= K; k++) {
-						if (i + k >= N)	continue;
-						if (str.charAt(i + k) == 'P') continue;
-						if (isAte[i + k])	continue;
-						isAte[i + k] = true;
-						answer++;
-						break;
-					}
-				}
+			if (line[i] == 'P' && isAte(i)) {
+				answer++;
 			}
 		}
 		
 		System.out.println(answer);
 		
+	}
+	
+	static boolean isAte(int index) {
+		int start = index - K < 0 ? 0 : index - K;
+		int end = index + K < N ? index + K : N-1;
+		for (int i = start; i <= end; i++) {
+			if (line[i] == 'H') {
+				line[i] = 'X';
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
