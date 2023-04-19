@@ -3,15 +3,11 @@ input = sys.stdin.readline
 
 
 N, M = map(int, input().split())
-arr = set()
+keywords = set()
 for i in range(N):
-    arr.add(input().rstrip())
+    keywords.add(input().rstrip())
 
 for i in range(M):
-    keywords = input().rstrip().split(",")
-    for word in keywords:
-        try:
-            arr.remove(word)
-        except:
-            pass
-    print(len(arr))
+    words = set(input().rstrip().split(","))
+    keywords -= words
+    print(len(keywords))
