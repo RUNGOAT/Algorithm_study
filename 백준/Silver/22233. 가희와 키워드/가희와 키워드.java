@@ -18,6 +18,7 @@ public class Main {
 			map.put(br.readLine(), true);
 		}
 		
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < M; i++) {
 			String[] keywords = br.readLine().split(",");
 			for (int j = 0; j < keywords.length; j++) {
@@ -25,8 +26,10 @@ public class Main {
 					map.remove(keywords[j]);
 				}
 			}
-			System.out.println(map.size());
+			sb.append(map.size() + "\n");
 		}
+		
+		System.out.println(sb);
 
 	}
 
