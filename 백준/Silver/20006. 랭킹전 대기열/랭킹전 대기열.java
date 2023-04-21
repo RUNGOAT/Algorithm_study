@@ -63,32 +63,31 @@ public class Main {
 		for (List<Player> players : list) {
 			if (players.size() == M) {
 				sb.append("Started!\n");
-				Collections.sort(players);
-				for (Player player : players) {
-					sb.append(player.toString() + "\n");
-				}
 			} else {
 				sb.append("Waiting!\n");
-				Collections.sort(players);
-				for (Player player : players) {
-					sb.append(player.toString() + "\n");
-				}
 			}
+			game(sb, players);
 		}
 		System.out.println(sb);
 	}
 
 	static boolean check(List<Player> players, Player player) {
-		if (players.size() == 0)
-			return true;
-
-		if (Math.abs(players.get(0).level - player.level) > 10)
-			return false;
 
 		if (players.size() == M) {
 			return false;
 		}
+
+		if (players.size() != 0 
+				&& Math.abs(players.get(0).level - player.level) > 10)
+			return false;
+
 		return true;
 	}
 
+	static void game(StringBuilder sb, List<Player> players) {
+		Collections.sort(players);
+		for (Player player : players) {
+			sb.append(player.toString() + "\n");
+		}
+	}
 }
