@@ -3,7 +3,7 @@ input = sys.stdin.readline
 
 
 N = int(input())
-dp = [[[] for _ in range(3)] for _ in range(N+1)]
+dp = [[0] * 3 for _ in range(N+1)]
 dp[1][0] = dp[1][1] = dp[1][2] = 1
 
 for i in range(2, N+1):
