@@ -47,8 +47,7 @@ class Solution {
                x = nx;
                y = ny;
            }
-            answer[idx] = min;
-            idx++;
+            answer[idx++] = min;
         }
         
         return answer;
