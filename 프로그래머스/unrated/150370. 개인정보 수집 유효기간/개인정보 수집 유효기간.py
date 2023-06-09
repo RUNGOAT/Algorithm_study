@@ -1,8 +1,7 @@
 def solution(today, terms, privacies):
     answer = []
 
-    idx = 1
-    for privacy in privacies:
+    for idx, privacy in enumerate(privacies, start=1):
         date, term = privacy.split()
         year, month, day = map(int, date.split("."))
 
