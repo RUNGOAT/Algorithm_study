@@ -1,10 +1,10 @@
 # [level 2] 순위 검색 - 72412 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/72412) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/72412?language=python3) 
 
 ### 성능 요약
 
-메모리: 65.7 MB, 시간: 4192.74 ms
+메모리: 65.6 MB, 시간: 4574.49 ms
 
 ### 구분
 
