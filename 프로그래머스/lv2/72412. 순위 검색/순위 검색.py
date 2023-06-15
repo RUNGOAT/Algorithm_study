@@ -9,7 +9,7 @@ def binary(lst, target):
         else:
             e = mid
     
-    return s
+    return e
 
 
 def dfs(dic, depth, condition, idx):
