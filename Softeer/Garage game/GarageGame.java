@@ -21,17 +21,24 @@ public class Main {
             }
         }
 
-        pointers = new int[N];
-        int[][] box = new int[N][N];
+        pointers = new int[N];			// 위에서 떨어질 차량을 가리키는 위칫값
+        int[][] box = new int[N][N];	// 차고
         answer = 0;
 
-        simulation(box, 0, 1, 0, N - 1, 0, N - 1);
+        simulation(box, 0, 1, 0, 0, N - 1);
 
         System.out.println(answer);
     }
 
-    static void simulation(int[][] box, int score, int round, int b, int t, int l, int r) {
-    	// bottom : b, top : t, left : l, right : r
+    /**
+     * @param box 차고
+     * @param score 회차의 점수
+     * @param round 회차
+     * @param b bottom
+     * @param l left
+     * @param r right
+     */
+    static void simulation(int[][] box, int score, int round, int b, int l, int r) {
     	if (answer < score) {
     		answer = score;
     	}
@@ -39,7 +46,7 @@ public class Main {
         if (round == 4)
             return;
 
-        initBox(box, b, t, l, r);
+        initBox(box, b, l, r);
         int[][] nowBox = new int[N][N];
         for (int i = 0; i < N; i++) {
             nowBox[i] = Arrays.copyOf(box[i], N);
@@ -54,16 +61,24 @@ public class Main {
                 int[] res = bfs(i, j, visited, nowBox);
                 int plus = res[0];
                 b = res[1];
-                t = res[2];
-                l = res[3];
-                r = res[4];
-                simulation(nowBox, score + plus, round + 1, b, t, l, r);
+                l = res[2];
+                r = res[3];
+                simulation(nowBox, score + plus, round + 1, b, l, r);
                 copyPointers(savedPointers, l, r);
-                copyBox(nowBox, box, b, t, l, r);
+                copyBox(nowBox, box, b, l, r);
             }
         }
     }
   
+    /**
+     * 
+     * @param sx
+     * @param sy
+     * @param visited
+     * @param box
+     * @return box[sx][sy]를 선택했을 때 얻을 수 있는 점수,
+            사라진 자동차들을 포함하는 가장 작은 직사각형 범위 b, l, r
+     */
     static int[] bfs(int sx, int sy, boolean[][] visited, int[][] box) {
         Stack<int[]> stack = new Stack<>();
         stack.push(new int[]{sx, sy});
@@ -91,17 +106,25 @@ public class Main {
             }
         }
 
-        return new int[] {cnt + (maxX - minX + 1) * (maxY - minY + 1), minX, maxX, minY, maxY};
+        return new int[] {cnt + (maxX - minX + 1) * (maxY - minY + 1), minX, minY, maxY};
     }
   
-    static void initBox(int[][] box, int b, int t, int l, int r) {
+    /**
+     * 차고에 빈 자리가 있으면 아래로 채운 뒤 남은 자리는 위에서 떨어지는 자동차로 채운다.
+     * 
+     * @param box 차고
+     * @param b bottom
+     * @param l left
+     * @param r right
+     */
+    static void initBox(int[][] box, int b, int l, int r) {
         for (int j = l; j <= r; j++) {
             int pointer = pointers[j];
             for (int si = b; si < N; si++) {
                 int i = si;
                 if (box[i][j] == 0) {
                     boolean flag = true;
-                    while (i < N) {
+                    while (i < N) {	// 빈 자리가 있으면 아래로 채우기
                         if (box[i][j] != 0) {
                             box[si][j] = box[i][j];
                             box[i][j] = 0;
@@ -110,7 +133,7 @@ public class Main {
                         }
                         i++;
                     }
-                    if (flag) {
+                    if (flag) {	// 위에서 떨어지는 자동차로 채우기
                         box[si][j] = arr[pointer][j];
                         pointer++;
                     }
@@ -126,12 +149,11 @@ public class Main {
         }
     }
   
-    static void copyBox(int[][] nowBox, int[][] box, int b, int t, int l, int r) {
+    static void copyBox(int[][] nowBox, int[][] box, int b, int l, int r) {
         for (int j = l; j <= r; j++) {
             for (int i = b; i < N; i++) {
                 nowBox[i][j] = box[i][j];
             }
         }
     }
-
 }
