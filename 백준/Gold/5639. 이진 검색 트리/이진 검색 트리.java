@@ -17,31 +17,25 @@ class Tree {
 	void createNode(int data) {
 		if (root == null) {
 			root = new Node(data);
-			root.left = null;
-			root.right = null;
 		} else {
 			searchNode(root, data);
 		}
 	}
 	
 	void searchNode(Node node, int data) {
-		if (node == null) {
-			node = new Node(data);
-			node.left = null;
-			node.right = null;
-		} else if (node.data > data) {
-			if (node.left == null) {
-				node.left = new Node(data);
-			} else {
-				searchNode(node.left, data);				
-			}
-		} else {
-			if (node.right == null) {
-				node.right = new Node(data);
-			} else {
-				searchNode(node.right, data);				
-			}
-		}
+		if (node.data > data) {
+	        if (node.left == null) {
+	            node.left = new Node(data);
+	        } else {
+	        	searchNode(node.left, data);				
+	        }
+	    } else {
+	        if (node.right == null) {
+	            node.right = new Node(data);
+	        } else {
+	        	searchNode(node.right, data);				
+	        }
+	    }
 	}
 	
 	void postOrder(Node node) {
@@ -60,11 +54,7 @@ public class Main {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	Tree tree = new Tree();
     	String input;
-    	while (true) {
-    		input = br.readLine();
-    		if (input == null || input.equals("")) {
-    			break;
-    		}
+    	while ((input = br.readLine()) != null && !input.isEmpty()) {
     		int data = Integer.parseInt(input);
         	tree.createNode(data);
     	}
