@@ -24,18 +24,17 @@ class Tree {
 	
 	void searchNode(Node node, int data) {
 		if (node.data > data) {
-	        if (node.left == null) {
-	            node.left = new Node(data);
+	        	if (node.left == null) {
+	            		node.left = new Node(data);
+	        	} else {
+	        		searchNode(node.left, data);				
 	        } else {
-	        	searchNode(node.left, data);				
-	        }
-	    } else {
-	        if (node.right == null) {
-	            node.right = new Node(data);
-	        } else {
-	        	searchNode(node.right, data);				
-	        }
-	    }
+	        	if (node.right == null) {
+	            		node.right = new Node(data);
+	        	} else {
+	        		searchNode(node.right, data);				
+	        	}
+	    	}
 	}
 	
 	void postOrder(Node node) {
