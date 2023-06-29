@@ -1,5 +1,5 @@
 # 문제
-[📃 성적 평가](https://softeer.ai/practice/result.do?eventIdx=1&psProblemId=1309&submissionSn=SW_PRBL_SBMS_213420#hold)
+[📃 성적 평가](https://softeer.ai/practice/info.do?idx=1&eid=1309)
 
 <br>
 
