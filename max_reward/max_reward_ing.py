@@ -34,5 +34,5 @@ for t in range(1, T + 1):
             else:    
                 lst1[-2], lst1[-1] = lst1[-1], lst1[-2]
 
-    print(f"#{t} {''.join(lst1)}")
+    print(f'#{t} {''.join(lst1)}')
     
