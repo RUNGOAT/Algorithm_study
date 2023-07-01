@@ -41,6 +41,7 @@ def move_key(key, x, y):
     for i in range(x, x+M):
         for j in range(y, y+M):
             if key[i-x][j-y] == 1:
+                # 열쇠의 돌기와 자물쇠의 돌기가 만나서는 안됨
                 if arr[i][j] == 1:
                     arr[i][j] = 0
                 else:
