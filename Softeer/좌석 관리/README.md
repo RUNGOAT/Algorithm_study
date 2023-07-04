@@ -1,12 +1,10 @@
-문제
+# 문제
+[📃 좌석 관리](https://softeer.ai/practice/info.do?idx=1&eid=625)
 
-[[Softeer][21년 재직자 대회 예선] 좌석 관리](https://softeer.ai/practice/info.do?idx=1&eid=625)
+<br>
 
-득점
-100.0 / 100
+# 성능 요약
 
-실행시간
-269ms
-
-메모리
-41.68Mb
+| 언어 | 실행시간 | 메모리| 득점 |
+| :-----: | :-----: | :-----: | :-----: |
+| **Python** | 269ms | 41.68MB | 100.0 |
