@@ -4,8 +4,7 @@ import java.io.*;
 public class Main {
 	
 	static int N;
-	static char[][] arr;
-	static Map<Character, Integer> map = new HashMap<>();
+	static char[][] grid;
 	static boolean[][] visited;
 	static int[] dx = {0, 1, 0, -1};
 	static int[] dy = {1, 0, -1, 0};
@@ -13,18 +12,11 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		map.put('C', 1);
-		map.put('P', 1);
-		map.put('Z', 1);
-		map.put('Y', 1);
 		
 		N = Integer.parseInt(br.readLine());
-		arr = new char[N][N];
+		grid = new char[N][N];
 		for (int i = 0; i < N; i++) {
-			String line = br.readLine();
-			for (int j = 0; j < N; j++) {
-				arr[i][j] = line.charAt(j);
-			}
+			grid[i] = br.readLine().toCharArray();
 		}
 		
 		visited = new boolean[N][N];
@@ -46,55 +38,43 @@ public class Main {
 			if (0 > nx || N <= nx || 0 > ny || N <= ny)
 				continue;
 			if (visited[nx][ny])			continue;
-			if (arr[nx][ny] == arr[x][y])	continue;
-			change(x, y, nx, ny);
-			countMax();
-			change(nx, ny, x, y);
+			if (grid[nx][ny] == grid[x][y])	continue;
+			swap(x, y, nx, ny);
+			updateAnswer();
+			swap(nx, ny, x, y);
 		}
 	}
 	
-	static void change(int x, int y, int nx, int ny) {
-		char temp = arr[x][y];
-		arr[x][y] = arr[nx][ny];
-		arr[nx][ny] = temp;
+	static void swap(int x, int y, int nx, int ny) {
+		char temp = grid[x][y];
+		grid[x][y] = grid[nx][ny];
+		grid[nx][ny] = temp;
 	}
 	
-	static void countMax() {
+	static void updateAnswer() {
 		for (int i = 0; i < N; i++) {
-			char firstChar = arr[i][0];
-			int count = 1;
-			for (int j = 1; j < N; j++) {
-				if (arr[i][j] != firstChar) {
-					if (count > answer) {
-						answer = count;
-					}
-					firstChar = arr[i][j];
-					count = 1;
-				} else {
-					count++;
+			getMax(i, true);
+			getMax(i, false);
+		}
+	}
+	
+	static void getMax(int idx, boolean isRow) {
+		int count = 1;
+		char firstChar = isRow ? grid[idx][0] : grid[0][idx];
+		for (int j = 1; j < N; j++) {
+			char curChar = isRow ? grid[idx][j] : grid[j][idx];
+			if (curChar != firstChar) {
+				if (count > answer) {
+					answer = count;
 				}
-			}
-			if (count > answer) {
-				answer = count;
+				firstChar = curChar;
+				count = 1;
+			} else {
+				count++;
 			}
 		}
-		for (int i = 0; i < N; i++) {
-			char firstChar = arr[0][i];
-			int count = 1;
-			for (int j = 1; j < N; j++) {
-				if (arr[j][i] != firstChar) {
-					if (count > answer) {
-						answer = count;
-					}
-					firstChar = arr[j][i];
-					count = 1;
-				} else {
-					count++;
-				}
-			}
-			if (count > answer) {
-				answer = count;
-			}
+		if (count > answer) {
+			answer = count;
 		}
 	}
 }
