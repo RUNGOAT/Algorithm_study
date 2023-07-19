@@ -81,14 +81,14 @@ public class Main {
 		}
 		
 		// 가을
-		Stack<Tree> possibleList = new Stack<>();
+		Queue<Tree> possibleList = new LinkedList<>();
 		for (Tree tree : treeList) {
 			if (tree.age % 5 == 0) {
 				possibleList.add(tree);
 			}
 		}
 		while (!possibleList.isEmpty()) {
-			Tree tree = possibleList.pop();
+			Tree tree = possibleList.poll();
 			
 			for (int d = 0; d < 8; d++) {
 				int nx = tree.x + dx[d];
