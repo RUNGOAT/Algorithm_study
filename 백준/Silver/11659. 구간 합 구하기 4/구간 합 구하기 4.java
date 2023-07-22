@@ -22,11 +22,13 @@ public class Main {
 			sumArr[i] += sumArr[i-1] + arr[i];
 		}
 		
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine(), " ");
 			int start = Integer.parseInt(st.nextToken());
 			int end = Integer.parseInt(st.nextToken());
-			System.out.println(sumArr[end] - sumArr[start-1]);
+			sb.append(sumArr[end] - sumArr[start-1]).append("\n");
 		}
+		System.out.println(sb.toString());
 	}
 }
