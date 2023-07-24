@@ -27,23 +27,23 @@ public class Main {
 	static int twoPointer(int key) {
 		int target = arr[key];
 		
-		int i = 0, j = N-1;
-		while (i < j) {
-			if (i == key) {
-				i++;
+		int left = 0, right = N-1;
+		while (left < right) {
+			if (left == key) {
+				left++;
 				continue;
-			} else if (j == key) {
-				j--;
+			} else if (right == key) {
+				right--;
 				continue;
 			}
 			
-			int result = arr[i] + arr[j];
-			if (result == target) {
+			int sum = arr[left] + arr[right];
+			if (sum == target) {
 				return 1;
-			} else if (result < target) {
-				i++;
+			} else if (sum < target) {
+				left++;
 			} else {
-				j--;
+				right--;
 			}
 		}
 		return 0;
