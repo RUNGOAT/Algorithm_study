@@ -19,7 +19,7 @@ public class Main
         	int bamLength = bam.length();
         	if (stackSize >= bamLength) {
         		boolean isSame = true;
-        		for (int j = 0; j < bam.length(); j++) {
+        		for (int j = 0; j < bamLength; j++) {
         			if (stack.get(stackSize - bamLength + j) != bam.charAt(j)) {
         				isSame = false;
         				break;
