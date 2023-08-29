@@ -2,6 +2,8 @@
 
 [문제 링크](https://www.acmicpc.net/problem/20437) 
 
+## LinkedList 구현함
+
 ### 성능 요약
 
 메모리: 32144 KB, 시간: 296 ms
