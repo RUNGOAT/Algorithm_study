@@ -2,7 +2,7 @@
 
 [문제 링크](https://www.acmicpc.net/problem/20437) 
 
-## LinkedList 구현함
+## - LinkedList 구현함
 
 ### 성능 요약
 
