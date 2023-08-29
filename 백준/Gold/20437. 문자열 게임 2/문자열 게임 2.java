@@ -3,18 +3,29 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
+
 
 class Node {
-	int cnt, shortSize, longSize;
-	List<Integer> idxList;
+	int idx;
+	Node next;
 	
-	public Node () {
+	public Node() {};
+	
+	public Node(int idx) {
+		this.idx = idx;
+	}
+}
+
+class Alphabet {
+	int cnt, shortSize, longSize;
+	Node head;
+	Node tail;
+	
+	public Alphabet () {
 		this.cnt = 0;
-		idxList = new ArrayList<>();
-		shortSize = Integer.MAX_VALUE;
-		longSize = 0;
+		this.shortSize = Integer.MAX_VALUE;
+		this.longSize = 0;
+		this.head = this.tail = new Node();
 	}
 }
 
@@ -28,10 +39,11 @@ public class Main
     	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     	int T = Integer.parseInt(br.readLine());
     	for (int t = 0; t < T; t++) {
-    		Node[] alphabet = new Node[26];
+    		Alphabet[] alphabet = new Alphabet[26];
     		for (int i = 0; i < 26; i++) {
-    			alphabet[i] = new Node();
+    			alphabet[i] = new Alphabet();
     		}
+    		
     		int shortAnswer = INF;
     		int longAnswer = 0;
     		
@@ -40,19 +52,31 @@ public class Main
     		
     		for (int i = 0; i < W.length(); i++) {
     			char word = W.charAt(i);
-    			Node node = alphabet[word - 'a'];
-    			node.idxList.add(i);
-    			if (++node.cnt >= K) {
-    				int size = i - node.idxList.get(node.cnt - K) + 1;
-    				node.shortSize = Math.min(node.shortSize, size);
-    				node.longSize = Math.max(node.longSize, size);
+    			Alphabet alpha = alphabet[word - 'a'];
+    			Node newNode = new Node(i);
+    			alpha.tail.next = newNode;
+    			alpha.tail = newNode;
+    			alpha.cnt++;
+    			
+    			if (alpha.cnt == K) {
+    				int size = alpha.tail.idx - alpha.head.next.idx + 1;
+    				
+    				alpha.shortSize = Math.min(alpha.shortSize, size);
+    				alpha.longSize = Math.max(alpha.longSize, size);
+    				
+    				if (alpha.head.next.next == null) {
+    					alpha.head = alpha.tail = new Node();
+    				} else {
+    					alpha.head.next = alpha.head.next.next;    					
+    				}
+    				alpha.cnt--;
     			}
     		}
     		
     		for (int i = 0; i < 26; i++) {
-    			Node node = alphabet[i];
-    			shortAnswer = Math.min(shortAnswer, node.shortSize);
-    			longAnswer = Math.max(longAnswer, node.longSize);
+    			Alphabet alpha = alphabet[i];
+    			shortAnswer = Math.min(shortAnswer, alpha.shortSize);
+    			longAnswer = Math.max(longAnswer, alpha.longSize);
     		}
     		
     		if (shortAnswer == INF || longAnswer == 0) {
