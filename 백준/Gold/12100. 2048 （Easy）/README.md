@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 43996 KB, 시간: 728 ms
+메모리: 20152 KB, 시간: 220 ms
 
 ### 분류
 
@@ -77,9 +77,9 @@
 	<tbody>
 		<tr>
 			<td style="text-align:center"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/12094/17.png" style="height:250px; width:248px"></td>
-			<td style="text-align:center"><img alt="" src="" style="height:250px; width:252px"></td>
+			<td style="text-align:center"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/12094/18.png" style="height:250px; width:252px"></td>
 			<td style="text-align:center"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/12094/19.png" style="height:250px; width:250px"></td>
-			<td style="text-align:center"><img alt="" src="" style="height:250px; width:250px"></td>
+			<td style="text-align:center"><img alt="" src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/12094/20.png" style="height:250px; width:250px"></td>
 		</tr>
 	</tbody>
 	<tfoot>

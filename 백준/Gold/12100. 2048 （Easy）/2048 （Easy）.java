@@ -1,209 +1,140 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static int n;
-	public static int ans_max;
-	public static int[] dx = {-1, 1, 0, 0};
-	public static int[] dy = {0, 0, -1, 1};
-	public static int[][] board;
 	
-	public static void main(String[] args) throws IOException {
+	static int N;
+	static int answer = 0;
+	static final int MAX_ROUND = 5;
+	
+	public static void main(String args[]) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		n = Integer.parseInt(br.readLine());
-		board= new int[n][n];
-		StringTokenizer st = null;
-		for(int i=0;i<n;i++) {
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+		
+		N = Integer.parseInt(br.readLine());
+		int[][] firstMap = new int[N][N];
+		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine(), " ");
-			for(int j=0;j<n;j++) {
-				board[i][j] = Integer.parseInt(st.nextToken());
+			for (int j = 0; j < N; j++) {
+				firstMap[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 		
-		ans_max = 0;
-		permutation(new int[5], 0);
-		System.out.println(ans_max);
-
+		dfs(firstMap, 1);
+		
+		bw.write(answer + "\n");
+		bw.flush();
+		bw.close();
+		br.close();
 	}
 	
-	public static void permutation(int[] arr, int depth) {
-		if(depth == 5) {
-			int[] arr_copy = arr.clone();
-			int[][] map_copy = new int[n][n];
-			for(int i=0;i<n;i++) {
-				for(int j=0;j<n;j++) {
-					map_copy[i][j] = board[i][j];
-				}
-			}
-			
-			for(int i=0;i<5;i++) {
-				int dir = arr_copy[i];
-				if(dir == 0) {
-					up(map_copy);
-				} else if(dir == 1) {
-					down(map_copy);
-				} else if(dir == 2) {
-					left(map_copy);
-				} else {
-					right(map_copy);
-				}
-				int max_value = 0;
-				for(int p=0;p<n;p++) {
-					for(int q=0;q<n;q++) {
-						max_value = Math.max(max_value, map_copy[p][q]);
-					}
-				}
-				ans_max = Math.max(ans_max, max_value);
-			}
-
-
+	static void dfs(int[][] map, int round) {
+		if (round > MAX_ROUND) {
+			answer = Math.max(answer, getAnswer(map));
 			return;
 		}
-		for(int i=0;i<4;i++) {
-			arr[depth] = i;
-			permutation(arr, depth+1);
-		}
+		
+		// 오 -> 왼
+		dfs(moveColumn(map, N-1, -1, -1), round+1);
+		
+		// 왼 -> 오
+		dfs(moveColumn(map, 0, N, 1), round+1);
+		
+		// 위 -> 아래
+		dfs(moveRow(map, 0, N, 1), round+1);
+		
+		// 아래 -> 위
+		dfs(moveRow(map, N-1, -1, -1), round+1);
 	}
 	
-	public static void up(int[][] map) {
-		boolean[][] visited = new boolean[n][n];
-		for(int j=0;j<n;j++) {
-			while(true) {
-				int cnt = 0;
-				int x = 0;
-				int nx = x + dx[1]; 
-				while(true) {
-					if(nx >= n) break;
-					if(map[nx][j] != 0 && !visited[x][j] && !visited[nx][j] && map[nx][j] == map[x][j]) {
-						
-						map[x][j] += map[nx][j];
-						visited[x][j] = true;
-						map[nx][j] = 0;
-						cnt++;
-					} else if(map[x][j] == 0 && map[nx][j] != 0) {
-							map[x][j] = map[nx][j];
-							map[nx][j] = 0;
-							visited[x][j] = visited[nx][j];
-							visited[nx][j] = false;
-							cnt++;
-					}
-					x = nx;
-					nx += dx[1];
+	static int[][] moveColumn(int[][] map, int cs, int ce, int next) {
+		int[][] newMap = copy(map);
+		for (int i = 0; i < N; i++) {
+			int idx = cs;
+			int value = -1;
+			for (int j = cs; j != ce; j += next) {
+				if (newMap[i][j] == 0)	continue;
+				if (value == -1) {
+					value = newMap[i][j];
+					continue;
 				}
-				if(cnt == 0) {
-					break;
+				if (value == newMap[i][j]) {
+					newMap[i][idx] = value * 2;
+					idx += next;
+					value = -1;
+				} else {
+					newMap[i][idx] = value;
+					idx += next;
+					value = newMap[i][j];
 				}
 			}
-
+			if (value > 0) {
+				newMap[i][idx] = value;
+				idx += next;
+			}
+			for (int j = idx; j != ce; j += next) {
+				newMap[i][j] = 0;
+			}
 		}
-
+		return newMap;
 	}
 	
-	public static void down(int[][] map) {
-		boolean[][] visited = new boolean[n][n];
-		for(int j=0;j<n;j++) {
-			while(true) {
-				int cnt = 0;
-				int x = n-1;
-				int nx = x + dx[0]; 
-				while(true) {
-					if(nx < 0) break;
-					if(map[nx][j] != 0 && !visited[x][j] && !visited[nx][j] && map[nx][j] == map[x][j]) {
-						map[x][j] += map[nx][j];
-						visited[x][j] = true;
-						map[nx][j] = 0;
-						cnt++;
-					} else if(map[x][j] == 0 && map[nx][j] != 0) {
-							map[x][j] = map[nx][j];
-							map[nx][j] = 0;
-							visited[x][j] = visited[nx][j];
-							visited[nx][j] = false;
-							cnt++;
-					}
-					x = nx;
-					nx += dx[0];
+	static int[][] moveRow(int[][] map, int rs, int re, int next) {
+		int[][] newMap = copy(map);
+		for (int j = 0; j < N; j++) {
+			int idx = rs;
+			int value = -1;
+			for (int i = rs; i != re; i += next) {
+				if (newMap[i][j] == 0)	continue;
+				if (value == -1) {
+					value = newMap[i][j];
+					continue;
 				}
-				if(cnt == 0) {
-					break;
+				if (value == newMap[i][j]) {
+					newMap[idx][j] = value * 2;
+					idx += next;
+					value = -1;
+				} else {
+					newMap[idx][j] = value;
+					idx += next;
+					value = newMap[i][j];
 				}
 			}
-			
-
-		}
-	}
-	
-	public static void left(int[][] map) {
-		boolean[][] visited = new boolean[n][n];
-		for(int i=0;i<n;i++) {
-			
-			while(true) {
-				int cnt = 0;
-				int y = 0;
-				int ny = y + dy[3]; 
-				while(true) {
-					if(ny >= n) break;
-					if(map[i][ny] != 0 && !visited[i][y] && !visited[i][ny] && map[i][y] == map[i][ny]) {
-						map[i][y] += map[i][ny];
-						visited[i][y] = true;
-						map[i][ny] = 0;
-						cnt++;
-					} else if(map[i][y] == 0 && map[i][ny] != 0) {
-							map[i][y] = map[i][ny];
-							map[i][ny] = 0;
-							visited[i][y] = visited[i][ny];
-							visited[i][ny] = false;
-							cnt++;
-					}
-					y = ny;
-					ny += dy[3];
-
-				}
-				if(cnt ==0) {
-					break;
-				}
-				
+			if (value > 0) {
+				newMap[idx][j] = value;
+				idx += next;
 			}
-
-		}
-	}
-	
-	public static void right(int[][] map) {
-		boolean[][] visited = new boolean[n][n];
-		for(int i=0;i<n;i++) {
-			
-			while(true) {
-				int cnt = 0;
-				int y = n-1;
-				int ny = y + dy[2]; 
-				while(true) {
-					if(ny < 0) break;
-					if(map[i][ny] != 0 && !visited[i][y] && !visited[i][ny] && map[i][y] == map[i][ny]) {
-						map[i][y] += map[i][ny];
-						visited[i][y] = true;
-						map[i][ny] = 0;
-						cnt++;
-					} else if(map[i][y] == 0 && map[i][ny] != 0) {
-							map[i][y] = map[i][ny];
-							map[i][ny] = 0;
-							visited[i][y] = visited[i][ny];
-							visited[i][ny] = false;
-							cnt++;
-					}
-					y = ny;
-					ny += dy[2];
-
-				}
-				if(cnt ==0) {
-					break;
-				}
-				
+			for (int i = idx; i != re; i += next) {
+				newMap[i][j] = 0;
 			}
-
 		}
+		return newMap;
 	}
 	
+	static int getAnswer(int[][] map) {
+		int ans = 0;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				if (ans < map[i][j]) {
+					ans = map[i][j];
+				}
+			}
+		}
+		return ans;
+	}
 	
-
+	static int[][] copy(int[][] map) {
+		int[][] copy = new int[N][N];
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				copy[i][j] = map[i][j];
+			}
+		}
+		return copy;
+	}
 }
