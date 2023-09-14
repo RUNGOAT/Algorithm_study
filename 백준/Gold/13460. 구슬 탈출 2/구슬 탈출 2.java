@@ -1,200 +1,143 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main
-{
-	static int N, M;
-	static int min = Integer.MAX_VALUE;
-	static BufferedWriter bw;
-	static boolean blueBallOut = false;
-	
-    public static void main(String args[]) throws IOException
-    {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    	StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-    	
-    	N = Integer.parseInt(st.nextToken());
-    	M = Integer.parseInt(st.nextToken());
-    	
-    	char[][] map = new char[N][M];
-    	for (int i = 0; i < N; i++) {
-    		String line = br.readLine();
-    		for (int j = 0; j < M; j++) {
-    			map[i][j] = line.charAt(j);
-    		}
-    	}
-    	
-    	// dfs 로 지속적으로 새로운 맵을 만들어서 확인한다.
-    	dfs(map, 1);
-    	
-    	if (min == Integer.MAX_VALUE) {
-    		bw.write(-1 + "\n");
-    	} else {
-    		bw.write(min + "\n");    		
-    	}
-    	bw.flush();
-    	bw.close();
-    	br.close();
+class Step {
+    int rx, ry, bx, by, cnt;
+
+    public Step(int rx, int ry, int bx, int by, int cnt) {
+        super();
+        this.rx = rx;
+        this.ry = ry;
+        this.bx = bx;
+        this.by = by;
+        this.cnt = cnt;
     }
     
-    static void dfs(char[][] map, int round) throws IOException {
-    	if (round > 10) {
-    		blueBallOut = false;
-    		return;
-    	}
-    	if (blueBallOut) {
-    		blueBallOut = false;
-    		return;
-    	}
-    	
-//    	print(map);
-//		System.out.println();
-    	
-    	// 4가지 기울이기 함수를 생성한다.
-    	char[][] newMap = copy(map);
-    	if (moveWidth(1, M-2, 1, newMap)) {
-    		min = Math.min(min, round);
-    		return;
-    	} else {
-    		dfs(newMap, round+1);
-    	}
-    	
-    	newMap = copy(map);
-    	if (moveWidth(M-2, 1, -1, newMap)) {
-    		min = Math.min(min, round);
-    		return;
-    	} else {
-    		dfs(newMap, round+1);
-    	}
-    	
-    	newMap = copy(map);
-    	if (moveLength(1, N-2, 1, newMap)) {
-    		min = Math.min(min, round);
-    		return;
-    	} else {
-    		dfs(newMap, round+1);
-    	}
-    	
-    	newMap = copy(map);
-    	if (moveLength(N-2, 1, -1, newMap)) {
-    		min = Math.min(min, round);
-    		return;
-    	} else {
-    		dfs(newMap, round+1);
-    	}
+}
+
+public class Main {
+
+    static int N, M;
+    static char[][] map;
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, 1, -1};
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        map = new char[N][M];
+        
+        for (int i = 0; i < N; i++) {
+            map[i] = br.readLine().toCharArray();
+        }
+        
+        Step step = new Step(0, 0, 0, 0, 0);
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (map[i][j] == 'R') {
+                	step.rx = i;
+                	step.ry = j;
+                    map[i][j] = '.';
+                } else if (map[i][j] == 'B') {
+                	step.bx = i;
+                	step.by = j;
+                    map[i][j] = '.';
+                }
+            }
+        }
+        
+        bw.write(bfs(step) + "\n");
+        bw.flush();
+        bw.close();
+        br.close();
     }
     
-    // 기울이기 함수
-    // R 또는 B를 만나면 해당 기울이기 방향으로 이동시킨다.
-    // 이 과정에서 R이 O를 만나면 불리언 값 true 바꿔주고
-    // 만약 B가 O를 만나게 되면 불가능한 경우로 불리언 값을 false로 다시 바꾸고 return 한다.
-    static boolean moveWidth(int start, int end, int value, char[][] map) {
-    	boolean redBallOut = false;
-    	for (int i = 1; i < N-1; i++) {
-    		for (int j = end - value; j != start - (2 * value); j -= value) {
-    			if (map[i][j] == 'R') {
-    				int k = j + value;
-    				while (k != end + (2 * value)) {
-    					if (map[i][k] == 'O') {
-    						redBallOut = true;
-    						map[i][j] = '.';
-    						break;
-    					} else if (map[i][k] == 'B' || map[i][k] == '#') {
-    						map[i][j] = '.';
-    						map[i][k - value] = 'R';
-    						break;
-    					}
-    					k += value;
-    				}
-    			} else if (map[i][j] == 'B') {
-    				int k = j + value;
-    				while (k != end + (2 * value)) {
-    					if (map[i][k] == 'O') {
-    						redBallOut = false;
-    						blueBallOut = true;
-    						return false;
-    					} else if (map[i][k] == 'R' || map[i][k] == '#') {
-    						map[i][j] = '.';
-    						map[i][k - value] = 'B';
-    						break;
-    					}
-    					k += value;
-    				}
-    			}
-    		}
-    		if (redBallOut) {
-    			blueBallOut = false;
-    			return true;
-    		}
-    	}
-    	blueBallOut = false;
-    	return false;
+    static int bfs(Step cur) {
+        Queue<Step> q = new LinkedList<>();
+        q.offer(cur);
+        
+        while (!q.isEmpty()) {
+            Step step = q.poll();
+            
+            // 10번 움직인 경우
+            if (step.cnt == 10)        continue;
+            
+            for (int d = 0; d < 4; d++) {
+                int rx = step.rx;
+                int ry = step.ry;
+                int bx = step.bx;
+                int by = step.by;
+                boolean isRedHole = false;
+                boolean isBlueHole = false;
+                
+                // 빨간 구슬을 해당 방향으로 벽과 마주할 때까지 이동
+                while (true) {
+                    int nrx = rx + dx[d];
+                    int nry = ry + dy[d];
+                    if (map[nrx][nry] == '#')     break;
+                    if (map[nrx][nry] == 'O') {
+                        isRedHole = true;
+                        break;
+                    }
+                    rx = nrx;
+                    ry = nry;
+                }
+                
+                // 파란 구슬을 해당 방향으로 벽과 마주할 때까지 이동
+                while (true) {
+                	int nbx = bx + dx[d];
+                	int nby = by + dy[d];
+                	if (map[nbx][nby] == '#')	break;
+                	if (map[nbx][nby] == 'O') {
+                		// 파란 구슬이 구멍에 빠진 경우
+                		isBlueHole = true;
+                		break;
+                	}
+                	bx = nbx;
+                	by = nby;
+                }
+                
+                // 만약 파란 구슬이 구멍에 빠졌다면 실패
+                if (isBlueHole) {
+                	continue;
+                } else if (isRedHole) {
+                	return step.cnt + 1;
+                }
+                
+                // 두 구슬의 위치가 그대로면 큐에 삽입하지 않고 패스
+                if (step.rx == rx && step.ry == ry & step.bx == bx && step.by == by) {
+                	continue;
+                }
+                
+                // 구슬이 같은 선상에 위치해 겹쳐지는 경우에는 구슬이 겹치지 않도록 이동
+                if (rx == bx && ry == by) {
+                	switch (d) {
+                	case 0:
+                		if (step.rx < step.bx)	rx--;
+                		else	bx--;
+                		break;
+                	case 1:
+                		if (step.rx < step.bx)	bx++;
+                		else	rx++;
+                		break;
+                	case 2:
+                		if (step.ry < step.by)	ry--;
+                		else	by--;
+                		break;
+                	case 3:
+                		if (step.ry < step.by)	by++;
+                		else	ry++;
+                	}
+                }
+                q.offer(new Step(rx, ry, bx, by, step.cnt + 1));
+            }
+        }
+        return -1;
     }
-    
-    static boolean moveLength(int start, int end, int value, char[][] map) {
-    	boolean redBallOut = false;
-    	for (int j = 1; j < M-1; j++) {
-    		for (int i = end - value; i != start - (2 * value); i -= value) {
-    			if (map[i][j] == 'R') {
-    				int k = i + value;
-    				while (k != end + (2 * value)) {
-    					if (map[k][j] == 'O') {
-    						redBallOut = true;
-    						map[i][j] = '.';
-    						break;
-    					} else if (map[k][j] == 'B' || map[k][j] == '#') {
-    						map[i][j] = '.';
-    						map[k - value][j] = 'R';
-    						break;
-    					}
-    					k += value;
-    				}
-    			} else if (map[i][j] == 'B') {
-    				int k = i + value;
-    				while (k != end + (2 * value)) {
-    					if (map[k][j] == 'O') {
-    						redBallOut = false;
-    						blueBallOut = true;
-    						return false;
-    					} else if (map[k][j] == 'R' || map[k][j] == '#') {
-    						map[i][j] = '.';
-    						map[k - value][j] = 'B';
-    						break;
-    					}
-    					k += value;
-    				}
-    			}
-    		}
-    		if (redBallOut) {
-    			blueBallOut = false;
-    			return true;
-    		}
-    	}
-    	blueBallOut = false;
-    	return false;
-    }
-    
-    static char[][] copy(char[][] map) {
-    	char[][] copy = new char[N][M];
-    	for (int i = 0; i < N; i++) {
-    		for (int j = 0; j < M; j++) {
-    			copy[i][j] = map[i][j];
-    		}
-    	}
-    	return copy;
-    }
-    
-    static void print(char[][] map) throws IOException {
-    	for (int i = 0; i < N; i++) {
-    		for (int j = 0; j < M; j++) {
-    			bw.write(map[i][j] + " ");
-    		}
-    		bw.write("\n");
-    	}
-    }
+        
 }
