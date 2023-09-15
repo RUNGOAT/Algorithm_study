@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 class Shark {
-    int id, x, y, speed, d, size;
+    int x, y, speed, d, size;
 
-    public Shark(int id, int x, int y, int speed, int d, int size) {
-        this.id = id;
+    public Shark(int x, int y, int speed, int d, int size) {
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -23,7 +24,7 @@ class Shark {
 public class Main {
 
     static int R, C, M;
-    static List<Shark>[][] map;
+    static Shark[][] map;
     static Shark[] sharks;
     static int answer = 0;
     
@@ -40,12 +41,7 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         
         sharks = new Shark[M];
-        map = new ArrayList[R+1][C+1];
-        for (int i = 1; i <= R; i++) {
-        	for (int j = 1; j <= C; j++) {
-        		map[i][j] = new ArrayList<>();
-        	}
-        }
+        map = new Shark[R+1][C+1];
         
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine(), " ");
@@ -55,8 +51,7 @@ public class Main {
             int d = Integer.parseInt(st.nextToken());
             int size = Integer.parseInt(st.nextToken());
             
-            sharks[i] = new Shark(i, x, y, speed, d, size);
-            map[x][y].add(new Shark(i, x, y, speed, d, size));
+            map[x][y] = new Shark(x, y, speed, d, size);
         }
 
         // 낚시왕 이동
@@ -75,15 +70,26 @@ public class Main {
     }
     
     static void moveShark() {
-        for (int i = 0; i < M; i++) {
-            Shark shark = sharks[i];
-            
-            if (shark == null)    continue;
-            
-            int cnt = 0;
+    	Queue<Shark> q = new LinkedList<>();
+    	for (int i = 1; i <= R; i++) {
+    		for (int j = 1; j <= C; j++) {
+    			if (map[i][j] != null) {
+    				// 현재 map에 있는 상어들 Queue에 추가
+    				q.offer(new Shark(i, j, map[i][j].speed, map[i][j].d, map[i][j].size));
+    			}
+    		}
+    	}
+    	
+    	map = new Shark[R+1][C+1];	// 새로운 낚시판
+    	
+    	// 모든 상어 이동
+    	while (!q.isEmpty()) {
+    		Shark shark = q.poll();
+    		
+    		// 상어의 최소 이동 포인트
             int end = getEndPoint(shark, shark.d);
-            
-            while (cnt < end) {
+            // 이동
+            for (int cnt = 0; cnt < end; cnt++) {
 	            int d = shark.d;
 	            int nx = shark.x + dx[d];
 	            int ny = shark.y + dy[d];
@@ -93,56 +99,27 @@ public class Main {
 	                ny = shark.y + dy[d];
 	                shark.d = d;
 	            }
-	            cnt++;
 	            shark.x = nx;
 	            shark.y = ny;
             }
-        }
-        
-        for (int i = 1; i <= R; i++) {
-        	for (int j = 1; j <= C; j++) {
-        		map[i][j] = new ArrayList<>();
-        	}
-        }
-        
-        for (int i = 0; i < M; i++) {
-            Shark shark = sharks[i];
-            if (shark == null)	continue;
-            map[shark.x][shark.y].add(shark);
-        }
-        
-        for (int i = 1; i <= R; i++) {
-        	for (int j = 1; j <= C; j++) {
-        		if (map[i][j].size() <= 1)	continue;
-				Shark shark = max(map[i][j]);
-				map[i][j] = new ArrayList<>();
-				map[i][j].add(shark);
-        	}
-        }
-    }
-    
-    static Shark max(List<Shark> list) {
-    	Shark res = new Shark(-1, -1, -1, -1, -1, -1);
-    	for (Shark shark : list) {
-    		if (shark.size > res.size) {
-    			res = shark;
-    		}
+            
+            // 빈 공간인지 확인
+            if (map[shark.x][shark.y] != null) {
+            	if (map[shark.x][shark.y].size < shark.size) {
+            		map[shark.x][shark.y] = new Shark(shark.x, shark.y, shark.speed, shark.d, shark.size);
+            	}
+            } else {
+            	map[shark.x][shark.y] = new Shark(shark.x, shark.y, shark.speed, shark.d, shark.size);
+            }
     	}
-    	for (Shark shark : list) {
-    		if (shark.id != res.id) {
-    			sharks[shark.id] = null;
-    		}
-    	}
-    	return res;
     }
     
     static int catchShark(int c) {
         for (int r = 1; r <= R; r++) {
-            if (!map[r][c].isEmpty()) {
-                Shark shark = map[r][c].get(0);
+            if (map[r][c] != null) {
+                Shark shark = map[r][c];
                 int size = shark.size;
-                sharks[shark.id] = null;
-                map[r][c] = new ArrayList<>();
+                map[r][c] = null;
                 return size;
             }
         }
